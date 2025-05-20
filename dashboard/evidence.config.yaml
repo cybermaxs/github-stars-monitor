@@ -1,3 +1,6 @@
+deployment:
+  basePath: /github-stars-monitor
+
 appearance:
   default: system
   switcher: true

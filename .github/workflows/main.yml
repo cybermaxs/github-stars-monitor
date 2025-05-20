@@ -26,10 +26,11 @@ jobs:
         make run
       env:
         SOURCES__GITHUB__ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BASE_PATH: '/${{ github.event.repository.name }}'
     - name: Upload Artifacts
       uses: actions/upload-pages-artifact@v3
       with:
-        path: 'dashboard/build/'
+        path: 'dashboard/build/${{ github.event.repository.name }}'
 
   deploy:
     needs: build
