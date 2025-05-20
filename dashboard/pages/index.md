@@ -81,10 +81,6 @@ inner join aggregated_stars on rep.repository = aggregated_stars.repository
 where rep.language in ${inputs.language.value}
 ```
 
-```sql stars
-select *
-from github.stars
-```
 
 <Dropdown
     title="Filter by language"
