@@ -6,4 +6,4 @@ with stars as (
 select * from {{ ref('repositories') }}
 inner join stars
 on repositories.repository = stars.repository
-where abs(stars.cumulative_stars - repositories.stargazers_count) / repositories.stargazers_count > 0.01
+where abs(stars.cumulative_stars - repositories.stargazers_count) / repositories.stargazers_count > 0.05

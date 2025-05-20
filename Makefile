@@ -9,7 +9,7 @@ ingest:
 	uv run ingestion/github.py
 
 transform:
-	cd transform && uv run dbt build
+	cd transform && uv run dbt run
 
 dashboard:
 	cd dashboard && npm run sources && npm run build
