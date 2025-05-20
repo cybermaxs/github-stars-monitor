@@ -1,0 +1,15 @@
+github:
+  outputs:
+    dev:
+      type: duckdb
+      path: ./../data/github.duckdb
+      threads: 1
+      #schema: github_data
+
+    prod:
+      type: duckdb
+      path: ./../data/github.duckdb
+      threads: 4
+      schema: github_data
+
+  target: dev

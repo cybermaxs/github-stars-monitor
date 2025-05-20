@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "GitHub data extracted from the GitHub API"
+    database: github
+    schema: raw
+    tables:
+      - name: repositories
+        description: "Information about GitHub repositories with high stars or forks"
+        columns:
+          - name: id
+            description: "Unique identifier for the repository"
+            tests:
+              - unique
+              - not_null
+          - name: name
+            description: "Name of the repository"
+          - name: full_name
+            description: "Full name of the repository (owner/name)"
+          - name: owner
+            description: "Owner information of the repository"
+          - name: created_at
+            description: "Date and time when the repository was created"
+          - name: updated_at
+            description: "Date and time when the repository was last updated"
+          - name: stargazers_count
+            description: "Number of stars the repository has"
+          - name: forks_count
+            description: "Number of forks the repository has"
+
+      - name: stargazers
+        description: "Users who have starred repositories"
+        columns:
+          - name: id
+            description: "Unique identifier for the stargazer record"
+          - name: user
+            description: "Information about the user who starred the repository"
+          - name: starred_at
+            description: "Date and time when the user starred the repository"
+          - name: repository_name
+            description: "Name of the repository that was starred"
+          - name: repository_owner
+            description: "Owner of the repository that was starred"
