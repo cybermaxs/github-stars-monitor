@@ -1,4 +1,4 @@
-.PHONY: install ingest transform clean refresh dashboard
+.PHONY: install ingest transform clean refresh dashboard run
 
 install:
 	uv sync
@@ -18,3 +18,5 @@ clean:
 	rm data/github.duckdb
 
 refresh: clean ingest transform dashboard
+
+run: ingest transform dashboard
