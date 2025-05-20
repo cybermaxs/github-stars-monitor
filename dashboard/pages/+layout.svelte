@@ -5,6 +5,10 @@
 	export let data;
 </script>
 
-<EvidenceDefaultLayout {data} hideSidebar=true>
+<EvidenceDefaultLayout {data}
+	hideSidebar=true
+	githubRepo="https://github.com/cybermaxs/github-stars-monitor/"
+	title="GitHub Stars Monitor"
+	builtWithEvidence=true>
 	<slot slot="content" />
 </EvidenceDefaultLayout>
