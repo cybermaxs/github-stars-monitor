@@ -33,4 +33,4 @@ If you have any feature request, feel free to open an issue on the [GitHub repos
 
 ## Credits
 
-This project is heavily inspired by [mdsinabock](https://github.com/matsonj/nba-monte-carlo) and [pypi-duck-flow](https://github.com/mehd-io/pypi-duck-flow).
+This project is heavily inspired by [mdsinabox](https://github.com/matsonj/nba-monte-carlo) and [pypi-duck-flow](https://github.com/mehd-io/pypi-duck-flow).
