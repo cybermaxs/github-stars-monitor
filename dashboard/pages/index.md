@@ -67,8 +67,6 @@ select
     rep.repository
     , rep.created_at
     , rep.stargazers_count
-    , rep.forks_count
-    , rep.open_issues_count
     , rep.html_url
     , rep.language
     , rep.stars_1d / rep.stargazers_count as stars_1d_ratio

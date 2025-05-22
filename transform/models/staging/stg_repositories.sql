@@ -11,8 +11,5 @@ SELECT
     , pushed_at
     , homepage
     , stargazers_count
-    , forks_count
-    , watchers_count
-    , open_issues_count
-    , language
+    , coalesce(language, '(Unknown)') as language
 FROM source_data
