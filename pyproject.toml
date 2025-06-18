@@ -5,9 +5,9 @@ description = "Collect stars from recently created repositories"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "dbt-core>=1.9.8",
+    "dbt-core>=1.10.1",
     "dbt-duckdb>=1.9.3",
-    "dlt[duckdb]>=1.11.0",
+    "dlt[duckdb]>=1.12.0",
     "fire>=0.7.0",
     "pre-commit>=4.2.0",
 ]
