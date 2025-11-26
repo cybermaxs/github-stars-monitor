@@ -15,7 +15,7 @@ The pipeline is scheduled to run every day at 12:00 AM UTC and deployed to [Gith
 ## Development
 
 The project requires :
-* Python 3.12
+* Python 3.13
 * uv for python packages.
 * Nodejs (only for the visualization part)
 * a Github Personal Access Token (PAT) to fetch the data from Github.
