@@ -293,7 +293,7 @@ wheels = [
 
 [[package]]
 name = "dlt"
-version = "1.20.0"
+version = "1.21.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -323,9 +323,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "tzdata" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/76/29/a1ff457d07abf09930f317f8875cfe31dcc58cdc46a417adfffe04524433/dlt-1.20.0.tar.gz", hash = "sha256:be5feb887efe9cb33fbca1402c2069517b343b22edb4a09a389a6455ff68e4fb", size = 882567 }
+sdist = { url = "https://files.pythonhosted.org/packages/07/86/824b4ccedc99efcb1b109e4e124745878fd3f5fba8d255e6205c97591769/dlt-1.21.0.tar.gz", hash = "sha256:144621bba63105715a4667830556e7a3a69f7f47407bf520955fe989ae4ce646", size = 911050 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/30/ad/5e75d9b5c63c5191bf520e8e8baf68357f8a336dd3cd7188c8db88a2ea39/dlt-1.20.0-py3-none-any.whl", hash = "sha256:894968cd485474f438753cd5f6ab4f43ae1dab6bc06e746abc6c70fd5754f350", size = 1120030 },
+    { url = "https://files.pythonhosted.org/packages/e9/8c/5c40a37cf035cf757175488fe73007a5d41f50915c7aa29634953204b43c/dlt-1.21.0-py3-none-any.whl", hash = "sha256:adb73bc3c58d29ed53d8a629ef926005d938812ab2191663e863abe9fa21e164", size = 1153877 },
 ]
 
 [package.optional-dependencies]
@@ -406,7 +406,7 @@ dependencies = [
 requires-dist = [
     { name = "dbt-core", specifier = ">=1.11.2" },
     { name = "dbt-duckdb", specifier = ">=1.10.0" },
-    { name = "dlt", extras = ["duckdb"], specifier = ">=1.20.0" },
+    { name = "dlt", extras = ["duckdb"], specifier = ">=1.21.0" },
     { name = "fire", specifier = ">=0.7.1" },
     { name = "pre-commit", specifier = ">=4.5.1" },
 ]
