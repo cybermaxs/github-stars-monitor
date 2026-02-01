@@ -1,0 +1,52 @@
+version: 2
+
+models:
+  - name: stargazers_daily
+    description: "Daily aggregation of stargazers per repository"
+    columns:
+      - name: repository
+        description: "Full name of the repository (owner/name)"
+        tests:
+          - not_null
+      - name: day
+        description: "Date of the star count"
+        tests:
+          - not_null
+      - name: stars
+        description: "Number of unique users who starred on this day"
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - repository
+            - day
+
+  - name: repositories_aggregated
+    description: "Aggregated star metrics for repositories over different time periods"
+    columns:
+      - name: repository
+        description: "Full name of the repository (owner/name)"
+        tests:
+          - unique
+          - not_null
+      - name: stars_1d
+        description: "Number of stars received in the last 1 day"
+        tests:
+          - not_null
+      - name: stars_3d
+        description: "Number of stars received in the last 3 days"
+        tests:
+          - not_null
+      - name: stars_7d
+        description: "Number of stars received in the last 7 days"
+        tests:
+          - not_null
+      - name: stars_30d
+        description: "Number of stars received in the last 30 days"
+        tests:
+          - not_null
+      - name: stars_60d
+        description: "Number of stars received in the last 60 days"
+        tests:
+          - not_null
