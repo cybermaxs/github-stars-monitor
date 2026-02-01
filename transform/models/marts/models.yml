@@ -5,26 +5,45 @@ models:
   - name: repositories
     description: "Combined repository information including both raw data and aggregated metrics"
     columns:
+      - name: id
+        description: "Unique identifier for the repository"
+        tests:
+          - unique
+          - not_null
       - name: repository
         description: "Full name of the repository (owner/name)"
         tests:
           - unique
           - not_null
-      - name: stars
-        description: "Current number of stars for the repository"
-      - name: forks
-        description: "Current number of forks for the repository"
+      - name: html_url
+        description: "URL to the repository on GitHub"
+        tests:
+          - not_null
       - name: created_at
         description: "Date and time when the repository was created"
-      - name: updated_at
-        description: "Date and time when the repository was last updated"
-      - name: total_stargazers
-        description: "Total number of unique users who have starred the repository"
-      - name: total_stars
-        description: "Total number of stars received by the repository (including multiple stars from same user)"
+        tests:
+          - not_null
+      - name: stargazers_count
+        description: "Number of stars the repository has"
+        tests:
+          - not_null
+      - name: language
+        description: "Primary programming language of the repository"
+        tests:
+          - not_null
+      - name: stars_1d
+        description: "Number of stars received in the last 1 day"
+      - name: stars_3d
+        description: "Number of stars received in the last 3 days"
+      - name: stars_7d
+        description: "Number of stars received in the last 7 days"
+      - name: stars_30d
+        description: "Number of stars received in the last 30 days"
+      - name: stars_60d
+        description: "Number of stars received in the last 60 days"
 
-  - name: stars_daily_cumulative
-    description: "Daily cumulative star counts for each repository"
+  - name: stars
+    description: "Daily star counts with cumulative totals for each repository"
     columns:
       - name: repository
         description: "Full name of the repository (owner/name)"
@@ -36,5 +55,14 @@ models:
           - not_null
       - name: stars
         description: "Number of new stars received on this day"
+        tests:
+          - not_null
       - name: cumulative_stars
         description: "Running total of stars up to and including this day"
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - repository
+            - day

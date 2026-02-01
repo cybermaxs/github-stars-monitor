@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: stg_repositories
+    description: "Staging model for GitHub repositories with cleaned and standardized data"
+    columns:
+      - name: id
+        description: "Unique identifier for the repository"
+        tests:
+          - unique
+          - not_null
+      - name: repository
+        description: "Full name of the repository in lowercase (owner/name)"
+        tests:
+          - unique
+          - not_null
+      - name: html_url
+        description: "URL to the repository on GitHub"
+        tests:
+          - not_null
+      - name: created_at
+        description: "Date and time when the repository was created"
+        tests:
+          - not_null
+      - name: updated_at
+        description: "Date and time when the repository was last updated"
+      - name: pushed_at
+        description: "Date and time of the last push to the repository"
+      - name: homepage
+        description: "Homepage URL for the repository project"
+      - name: stargazers_count
+        description: "Number of stars the repository has"
+        tests:
+          - not_null
+      - name: language
+        description: "Primary programming language of the repository"
+        tests:
+          - not_null
+
+  - name: stg_stargazers
+    description: "Staging model for GitHub stargazers with cleaned and standardized data"
+    columns:
+      - name: user_login
+        description: "Login username of the user who starred the repository"
+        tests:
+          - not_null
+      - name: starred_at
+        description: "Date and time when the user starred the repository"
+        tests:
+          - not_null
+      - name: repository
+        description: "Full name of the repository in lowercase (owner/name)"
+        tests:
+          - not_null
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_login
+            - repository

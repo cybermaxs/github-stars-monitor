@@ -1,6 +1,5 @@
 import dlt
-import dlt.common
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import os
 import fire
 import logging
@@ -11,9 +10,21 @@ from dlt.sources.helpers.rest_client.paginators import HeaderLinkPaginator
 
 logger = logging.getLogger("dlt")
 
+# Environment configuration
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+EXTRACT_WORKERS = os.getenv("EXTRACT_WORKERS", "4")
+LOOKBACK_DAYS = int(os.getenv("GITHUB_LOOKBACK_DAYS", "60"))
+MIN_STARS = int(os.getenv("GITHUB_MIN_STARS", "500"))
+RATE_LIMIT_THRESHOLD = int(os.getenv("GITHUB_RATE_LIMIT_THRESHOLD", "500"))
+
+os.environ["RUNTIME__LOG_LEVEL"] = LOG_LEVEL
+os.environ["EXTRACT__WORKERS"] = EXTRACT_WORKERS
+
 
 class GithubAPI:
     def __init__(self, access_token):
+        if not access_token:
+            raise ValueError("GitHub access token is required but not provided")
         self.client = RESTClient(
             base_url="https://api.github.com",
             auth=BearerTokenAuth(token=access_token),
@@ -23,10 +34,10 @@ class GithubAPI:
     def _should_stop_pagination(self, response):
         rate_limit_remaining = int(response.headers["x-ratelimit-remaining"])
         reset_timestamp = int(response.headers["x-ratelimit-reset"])
-        reset_time = datetime.fromtimestamp(reset_timestamp)
-        time_remaining = reset_time - datetime.now()
+        reset_time = datetime.fromtimestamp(reset_timestamp, tz=timezone.utc)
+        time_remaining = reset_time - datetime.now(timezone.utc)
 
-        if rate_limit_remaining < 500:
+        if rate_limit_remaining < RATE_LIMIT_THRESHOLD:
             logger.warning(
                 f"Rate limit is getting low ({rate_limit_remaining} remaining). Stopping pagination."
             )
@@ -60,12 +71,18 @@ class GithubAPI:
                 total_results += 1
                 if total_results >= max_results:
                     break
+            if self._should_stop_pagination(page.response):
+                break
 
     def get_repository(self, owner: str, name: str):
-        url = f"repos/{owner}/{name}"
-        response = self.client.get(url)
-        response.raise_for_status()
-        return response.json()
+        try:
+            url = f"repos/{owner}/{name}"
+            response = self.client.get(url)
+            response.raise_for_status()
+            return response.json()
+        except Exception as e:
+            logger.error(f"Failed to fetch repository {owner}/{name}: {e}")
+            raise
 
     def get_stargazers(
         self,
@@ -108,18 +125,19 @@ class GithubAPI:
                 break
 
 
-os.environ["RUNTIME__LOG_LEVEL"] = "INFO"
-os.environ["EXTRACT__WORKERS"] = "4"
-
-
 @dlt.source
 def github_source(access_token=dlt.secrets.value):
     api = GithubAPI(access_token)
 
     @dlt.resource(write_disposition="merge", primary_key="id")
     def repositories():
-        two_months_ago = (datetime.now() - timedelta(days=60)).strftime("%Y-%m-%d")
-        yield from api.search_repositories(f"created:>{two_months_ago} stars:>500")
+        cutoff_date = (
+            datetime.now(timezone.utc) - timedelta(days=LOOKBACK_DAYS)
+        ).strftime("%Y-%m-%d")
+        query = f"created:>{cutoff_date} stars:>{MIN_STARS}"
+
+        logger.info(f"Searching for repositories with query: {query}")
+        yield from api.search_repositories(query)
 
     @dlt.transformer(
         parallelized=True,
@@ -135,14 +153,22 @@ def github_source(access_token=dlt.secrets.value):
 
 
 def run():
-    pipeline = dlt.pipeline(
-        "github",
-        destination=dlt.destinations.duckdb("data/github.duckdb"),
-        dataset_name="raw",
-    )
+    try:
+        pipeline = dlt.pipeline(
+            "github",
+            destination=dlt.destinations.duckdb("data/github.duckdb"),
+            dataset_name="raw",
+        )
 
-    load_info = pipeline.run(github_source())
-    print(load_info)
+        load_info = pipeline.run(github_source())
+        print(load_info)
+        logger.info("Pipeline completed successfully")
+    except ValueError as e:
+        logger.error(f"Configuration error: {e}")
+        raise
+    except Exception as e:
+        logger.error(f"Pipeline failed with error: {e}")
+        raise
 
 
 if __name__ == "__main__":

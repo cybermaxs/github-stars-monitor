@@ -32,13 +32,15 @@ sources:
       - name: stargazers
         description: "Users who have starred repositories"
         columns:
-          - name: id
-            description: "Unique identifier for the stargazer record"
-          - name: user
-            description: "Information about the user who starred the repository"
+          - name: user__login
+            description: "Login username of the user who starred the repository"
+            tests:
+              - not_null
           - name: starred_at
             description: "Date and time when the user starred the repository"
-          - name: repository_name
-            description: "Name of the repository that was starred"
-          - name: repository_owner
-            description: "Owner of the repository that was starred"
+            tests:
+              - not_null
+          - name: repository_full_name
+            description: "Full name of the repository that was starred (owner/name)"
+            tests:
+              - not_null

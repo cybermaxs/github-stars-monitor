@@ -97,7 +97,7 @@ where rep.language in ${inputs.language.value}
     <Column id=stargazers_count title="Stars" />
     <Column id=stars title="Trend" contentType=sparkline sparkX=date sparkY=stars />
     <Column id=stars_1d_ratio fmt=pct1 title="Growth 1D" contentType=colorscale colorScale=positive/>
-    <Column id=stars_3d_ratio fmt=pct1 title="Growth 2D" contentType=colorscale colorScale=positive/>
+    <Column id=stars_3d_ratio fmt=pct1 title="Growth 3D" contentType=colorscale colorScale=positive/>
     <Column id=stars_7d_ratio fmt=pct1 title="Growth 7D" contentType=colorscale colorScale=positive/>
     <Column id=stars_30d_ratio fmt=pct1 title="Growth 30D" contentType=colorscale colorScale=positive/>
 </DataTable>
