@@ -36,6 +36,7 @@ jobs:
       env:
         SOURCES__GITHUB__ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BASE_PATH: '/${{ github.event.repository.name }}'
+        GITHUB_LOOKBACK_DAYS: ${{ github.ref == 'refs/heads/main' && '60' || '7' }}
     - name: Upload Artifacts
       uses: actions/upload-pages-artifact@v3
       with:
