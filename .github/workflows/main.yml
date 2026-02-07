@@ -44,8 +44,8 @@ jobs:
 
   deploy:
     needs: build
-    # Only deploy on scheduled runs on main branch
-    if: github.event_name == 'schedule' && github.ref == 'refs/heads/main'
+    # Deploy on scheduled or manual runs on main branch
+    if: (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
 
     permissions:
