@@ -1,5 +1,8 @@
 # Github Stars Monitor : Never miss a new top starred repository
 
+> [!WARNING]
+> **⚠️ Data no longer updated (July 2026).** On June 30, 2026, GitHub [announced access restrictions](https://github.blog/changelog/2026-06-30-upcoming-access-restrictions-to-public-api-endpoints-and-ui-views/) on the [List stargazers](https://docs.github.com/en/rest/activity/starring) API endpoint (`/repos/{owner}/{repo}/stargazers`): it is now limited to each repository's own admins and collaborators, to prevent misuse of stargazer lists. As a result, this pipeline can no longer fetch star data for third-party repositories, and the dashboard data is frozen as of July 2026.
+
 This project is a _simple_ pipeline to get the top starred newly created repositories from Github.
 
 ![demo](./docs/demo.gif)
